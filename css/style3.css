@@ -1,0 +1,172 @@
+*{
+  margin: 0;
+  padding:0;
+}
+body {
+    font-family: 'Open Sans', sans-serif; 
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll; /* Enable vertical scrollbar */
+      scrollbar-width: thin; /* Width of the scrollbar */
+      scrollbar-color: transparent transparent; /* Color of the scrollbar */
+      -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+      scrollbar-width: none;
+}
+
+h1{
+  font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #5d9706;
+    color: #fff;
+}
+h2{
+  font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+
+
+label {
+    
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+@keyframes blinkBoxShadow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); 
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.8); 
+  }
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px; 
+}
+
+
+/* Reset the animation when not in focus */
+input[type="text"]:not(:focus),
+input[type="number"]:not(:focus) {
+  animation: none;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+header {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+} 
+
+.student {
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+ 
+}
+
+
+
+
+.question:focus-within{
+  animation: blinkBoxShadow 1s infinite;
+}
+
+.question {
+  display: inline-grid;
+  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 10px;
+  margin-right:10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  
+ 
+}
+
+ .assessment-tab,
+.assignment-tab,
+.university-tab {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+    
+    }
+
+
+
+
+
+.subdivision-category {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: green;
+  padding: 10px 10px;
+  border-radius: 3px;
+  color: #fff; 
+   
+   
+}
+
+.placeholder::placeholder{
+  opacity: 0.8;
+  color: #ccc;
+  font-size: 15px;
+}
+
+button {
+  font-family: 'Open Sans', sans-serif;
+    display: block;
+    padding: 10px 20px;
+    background-color: #2d753f; /* Button background color */
+    color: #fff; /* Text color */
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width:auto;
+    text-align: center;
+    margin: 0 auto; /* Center horizontally within its container */
+}
+
+/* Hover effect */
+button:hover {
+    background-color: #0a5d04; /* Change background color on hover */
+}
+
+
+

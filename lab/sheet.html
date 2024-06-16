@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Excel File Upload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="../css/style.css"> 
+<script src="../javascript/matrixcheck2.js"></script>
+    <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body class="bodyclass">
+<section class="ptu-title__container">
+    <div class="ptu-title__logo-header">
+        <a href="https://www.ptuniv.edu.in/" style="text-decoration: none;"> 
+            <img src="../img/logo1.png" class="ptu-title__logo" alt="Puducherry Technological University"> 
+        </a>
+    </div>
+    <div class="ptu-title__collage-name-container">
+        <h1 class="ptu-title__collage-name">
+            <span class="ptu-title__first-letter">P</span>
+            <span>UDUCHERRY </span>
+            <span class="ptu-title__first-letter">T</span>
+            <span>ECHNOLOGICAL </span>
+            <span class="ptu-title__first-letter">U</span>
+            <span>NIVERSITY</span>
+        </h1>
+        <br>
+        <br>
+        <h5 class="ptu-title__place">(Government of Puducherry Institution)</h5>
+        <br>
+        <h5 class="ptu-title__place3">Puducherry, India - 605 014.</h5>
+    </div>
+</section>
+
+<h1 class="copo">CO-PO MAPPING</h1>
+<br>
+<main >
+    <div class="card">
+        <div class="content">
+          <h2 class="title">WELCOME</h2>
+          <p class="copy">EXPORT EXCEL SHEET</p>
+             <div class="form">
+              <form action="../labheaders/navigate4.php" method="POST" enctype="multipart/form-data">
+                <div class="sb-code">
+                    <script>
+                        const urlParams1 = new URLSearchParams(window.location.search);
+                        const fromParam1 = urlParams1.get('from');
+                        if (fromParam1 === 'index') {
+                            document.write('<label for="subject_code">Subject Code:</label>');
+                            document.write('<input type="text" id="subject_code" name="subject_code" required onkeydown="if (event.keyCode === 13) { checkTableExists(); return false; }" oninput="this.value = this.value.toUpperCase();"><br><br>');
+                    
+                            // AJAX function to call PHP script and delete session variables
+                            function deleteSessionVariables() {
+                                const xhr = new XMLHttpRequest();
+                                xhr.open('GET', 'delete_session_variables.php', true);
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        // Session variables deleted
+                                    }
+                                };
+                                xhr.send();
+                            }
+                    
+                            // Call the function to delete session variables
+                            deleteSessionVariables();
+                        }
+                        else if(fromParam1 === 'pattern'){
+                             // AJAX function to call PHP script and delete session variables
+                             function deleteSessionVariables() {
+                                const xhr = new XMLHttpRequest();
+                                xhr.open('GET', 'delete_session_variables.php', true);
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState === 4 && xhr.status === 200) {
+                                        // Session variables deleted
+                                    }
+                                };
+                                xhr.send();
+                            }
+                    
+                            // Call the function to delete session variables
+                            deleteSessionVariables();
+
+                        }
+                    </script>
+                    
+                </div>
+                  <input type="file" name="excelFile" accept=".xlsx, .xls" required>
+                  <input type="submit" value="Upload">
+                  
+              </form>
+              <div class="download-link">
+                <script>
+                    // Get the query parameter 'from' from the URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const fromParam = urlParams.get('from');
+        
+                    // Check if 'from' is equal to 'pattern' to conditionally display the link
+                    if (fromParam === 'pattern') {
+                        document.write('<a href="http://localhost/co/lab/generate_excel.php" download>Download Excel Template</a>');
+                    }
+                    else if (fromParam === 'index'){
+                        
+                    }
+                    else{
+                        document.write('<a href="http://localhost/co/lab/generate_excel1.php" download>Download Excel</a>');
+                    }
+                </script>
+            </div>
+             </div>
+        </div>
+      </div>
+</main>
+</body>
+</html>
+

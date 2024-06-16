@@ -1,0 +1,326 @@
+<?php
+session_start();
+$tableName = $_SESSION['t_name1'];
+$tableName2 = $_SESSION['t_name2'];
+$tableName4=$_SESSION['t_name4'];
+$co_no = $_SESSION['co_no'];
+$poColumnCount = $_SESSION['po'];
+$psoColumnCount =$_SESSION['pso'];
+$tableName5 = $_SESSION['t_name5'];
+$assessment_table = $_SESSION['uniqueid'];
+$assignments_table = $_SESSION['uniqueid2'];
+$stdnamelist = $_SESSION['stdnamelist'];
+$no_assessment = $_SESSION['num_assessments'];
+$no_assignment = $_SESSION['num_assignments'];
+
+require_once(__DIR__.'/../PDF/dompdf/autoload.inc.php');
+include (__DIR__.'/../database.php');
+
+use Dompdf\Dompdf;
+use Dompdf\Options; 
+
+$options = new Options;
+$options->set("chroot",realpath(''));
+$options->setIsRemoteEnabled(true);//
+
+$dompdf = new Dompdf($options);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    $output = '
+    <style>
+    table {
+    width: 90%;
+    margin: 0 auto; /* Center the table horizontally */
+    border-spacing: 0;
+    background-color: #fff;
+    color: #000;
+      
+      }
+  
+  th, td {
+      padding:3px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      font-size:13px;
+      border: 0.3px solid  black;
+  }
+  #ptu {
+    height: 90px; /* Adjust the height as needed */
+    width: auto; /* Let the width adjust proportionally */
+    position: absolute;
+    top: 20px;
+    left: 70px; /* Adjust the left position as needed */
+  }
+  
+  h1{
+    position:relative;
+    top:20px;
+    left:35px;
+    font-size:20px;
+  }
+  th {
+      background-color: #eaeaea;
+  }
+  
+  body{
+    margin: 2px;
+    border: 1px solid #000;
+  }
+  
+  th, td:first-child{
+          font-weight: bold;
+      }
+  
+  .table-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  </style>
+  <body>
+  <center>   
+  <img id = "ptu" src="./logo1.png" alt="ptu logo" >
+  <h1>PUDUCHERRY TECHNOLOGICAL UNIVERSITY</h1>
+  <br>
+  <br>
+  <br>';
+  for ($i=1; $i <= $no_assessment; $i++) { 
+      // Execute the query and fetch the results
+  $query = "SELECT * FROM $assessment_table,$stdnamelist WHERE $assessment_table.student_regno = $stdnamelist.REGNO AND $assessment_table.assessment_no = '$i'";
+  $result = mysqli_query($conn, $query);
+  $output .='
+  <h2>STUDENT ASSESSMENT '.$i.'</h2>
+    <div class="table-container">
+    <table>
+    <thead>
+    <tr>
+    <th>SINO</th>
+    <th>REGNO</th>
+    <th>NAME</th> ';
+    for($j=1;$j<=$co_no;$j++){
+        $output .= '<th>CO' . $j .'</th>';
+      }
+      $output .=' </tr>
+      </thead>';
+    if ($result->num_rows > 0) {
+      // Output data of each row
+      while ($row = mysqli_fetch_array($result)) {
+          $output .='
+          <tr>
+              <td>'.$row["id"].'</td>
+              <td>'.$row["student_regno"].'</td>
+              <td>'.$row["STDNAME"].'</td> ';
+              for ($k = 1; $k <= $co_no; $k++) {
+                $output .= '<td>'. $row["co$k"] .'</td>';
+              }
+         $output .=' </tr>';
+      }
+
+  }
+  $output .='</table></div>';
+}
+for ($i=1; $i <= $no_assignment; $i++) { 
+$output .='
+  <h2>STUDENT ASSIGNMENTS '.$i.'</h2>
+  <div class="table-container">
+  <table>
+  <thead>
+  <tr>
+  <th>SINO</th>
+  <th>REGNO</th>
+  <th>NAME</th>';
+  for($j=1;$j<=$co_no;$j++){
+    $output .= '<th>CO' . $j .'</th>';
+  }
+  $output .=' </tr>
+  </thead>';
+
+  $query = "SELECT * FROM $assignments_table,$stdnamelist WHERE $assignments_table.student_regno = $stdnamelist.REGNO AND $assignments_table.assignment_no = '$i'";
+    
+  // Execute the query and fetch the results
+  $result = mysqli_query($conn, $query);
+  if ($result->num_rows > 0) {
+    // Output data of each row
+    while ($row = mysqli_fetch_array($result)) {
+        $output .='
+        <tr>
+            <td>'.$row["id"].'</td>
+            <td>'.$row["student_regno"].'</td>
+            <td>'.$row["STDNAME"].'</td> ';
+            for ($k = 1; $k <= $co_no; $k++) {
+              $output .= '<td>'. $row["co$k"] .'</td>';
+            }
+       $output .=' </tr>';
+    }
+
+}
+$output .='</table></div>';
+}
+  $query = "SELECT * FROM $tableName";
+    
+    // Execute the query and fetch the results
+    $result = mysqli_query($conn, $query);
+  $output .='
+  <h2>ASSESSMENT(%) TABLE</h2>
+  <div class= "table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>CATEGORY</th>';
+        for($i=1;$i<=$co_no;$i++){
+          $output .= '<th>CO' . $i .'</th>';
+        }
+        $output .=' </tr>
+    </thead>
+    ';
+    // Handle the results as needed
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        while ($row = mysqli_fetch_array($result)) {
+            $output .='<tr>
+                <td>' . $row["category"] .'</td>';
+                for($i=1;$i<=$co_no;$i++){
+                  $formattedValue = number_format($row['co' . $i], ($row['co' . $i] == intval($row['co' . $i]) ? 0 : 2));
+                  $output .= '<td>' . $formattedValue . '%' . '</td>';
+                }
+                $output .= '</tr>';
+        }
+
+    }
+    $output .='</table></div>';
+    $output .='
+    <h2>CO-QUESTION(%) TABLE</h2>';
+    $output .='<div class="table-container"></table></div>';
+    $output .='<table>
+    <thead>
+      <tr>
+        <th>COMBINATION</th>';
+        for($i=1;$i<=$co_no;$i++){
+          $output .= '<th>CO' . $i .'</th>';
+        }
+        $output .=' </tr>
+    </thead>
+    ';
+    $query = "SELECT * FROM $tableName2";
+    
+    // Execute the query and fetch the results
+    $result = mysqli_query($conn, $query);
+    // Handle the results as needed
+    if ($result->num_rows > 0) {
+        // Output data of each row
+        while ($row = mysqli_fetch_array($result)) {
+            $output .='
+            <tr>
+                <td>'.$row["combinations"].'</td>';
+                for($i=1;$i<=$co_no;$i++){
+                  $formattedValue = number_format($row['co' . $i], ($row['co' . $i] == intval($row['co' . $i]) ? 0 : 2));
+                  $output .= '<td>' . $formattedValue . '%' . '</td>';
+                }
+
+            $output .= '</tr>';
+        }
+
+    }
+    $output .='</table></div>';
+
+    $output .= '<br><br>
+
+    <h2>CO-ATTAINMENT TABLE</h2>
+    <div class="table-container">
+    <table>
+    <thead>
+    <th rowspan="2" colspan="1">CO</th>
+<th colspan="2">INTERNAL TEST(30%)</th>
+<th colspan="2">UNIVERSITY RESULT(70%)</th>
+<th rowspan="2">CO ATTAINMENT</th>
+<th rowspan="2">TARGET</th>
+<th rowspan="2">ATTAINED / NOT ATTAINED</th>
+</tr>
+<tr>
+
+<th >AVERAGE</th>
+<th>ATTAINMENT</th>
+<th>%RESULT</th>
+<th>ATTAINMENT</th>
+
+</tr> 
+</thead>';
+
+$query = "SELECT CO, AVERAGE1, ATT1, RESULT, ATT2, CO_ATT, TARG, ATT_STATUS FROM $tableName4";
+$result = mysqli_query($conn, $query);
+
+if ($result->num_rows > 0) {
+    // Output data of each row
+    while ($row = mysqli_fetch_assoc($result)) { // Use mysqli_fetch_assoc to fetch an associative array
+        $output .= '<tr>';
+        $output .= '<td>' . strtoupper($row['CO']) . '</td>';
+        $output .= '<td>' . $row['AVERAGE1'] . '</td>';
+        $output .= '<td>' . $row['ATT1'] . '</td>';
+        $output .= '<td>' . $row['RESULT'] . '</td>';
+        $output .= '<td>' . $row['ATT2'] . '</td>';
+        $output .= '<td>' . $row['CO_ATT'] . '</td>';
+        $output .= '<td>' . $row['TARG'] . '</td>';
+        $output .= '<td>' . $row['ATT_STATUS'] . '</td>';
+        $output .= '</tr>';
+    }
+}
+
+// Now $options contains the HTML table rows based on the database query results.
+
+$output .='</table>
+</div>';
+
+$output .= '<br><br><br><br>
+
+    <h2>PO/PSO-ATTAINMENT TABLE</h2>
+    <div class="table-container">
+    <table>
+    <thead>
+    <tr>
+    <th>CO</th>
+    <th>CO ATTAINMENT</th>';
+
+    for ($i = 1; $i <= $poColumnCount; $i++) {
+        $output .= '<th>PO' . $i . '</th>';
+    }
+    for ($i = 1; $i <= $psoColumnCount; $i++) {
+        $output .= '<th>PSO' . $i . '</th>';
+        }
+$output .='</tr> 
+</thead>';
+
+$query = "SELECT * FROM $tableName5";
+$result = mysqli_query($conn, $query);
+
+if ($result->num_rows > 0) {
+    // Output data of each row
+    while ($row = mysqli_fetch_assoc($result)) { // Use mysqli_fetch_assoc to fetch an associative array
+        $output .= '<tr>';
+        $output .= '<td>' . $row['CO'] . '</td>';
+        $output .= '<td>' . $row['CO_ATTAINMENT'] . '</td>';
+        for ($i = 1; $i <= $poColumnCount; $i++) {
+          $output .= '<td>'. $row["PO$i"] .'</td>';
+        }
+        for ($i = 1; $i <= $psoColumnCount; $i++) {
+          $output .= '<td>'. $row["PSO$i"] .'</td>';
+        }
+        $output .= '</tr>';
+    }
+}
+
+// Now $options contains the HTML table rows based on the database query results.
+
+$output .='</table>
+</div>
+';
+
+
+    $dompdf->loadHtml($output);
+
+$dompdf->setPaper("A4", "portrait");
+$dompdf->render();
+
+$dompdf->stream("invoice.pdf", ["Attachment" => 0]);
+$output = $dompdf->output();
+file_put_contents("file.pdf", $output);
+?>

@@ -1,0 +1,13 @@
+DELIMITER //
+
+CREATE EVENT IF NOT EXISTS DeleteAssessmentTablesEvent
+ON SCHEDULE
+    EVERY 1 DAY
+    STARTS CURRENT_DATE + INTERVAL 1 DAY
+    COMMENT 'Run DeleteAssessmentTables daily at 12 am'
+DO
+BEGIN
+    CALL DeleteAssessmentTables();
+END //
+
+DELIMITER ;

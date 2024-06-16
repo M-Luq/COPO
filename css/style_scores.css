@@ -1,0 +1,104 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+    scrollbar-width: thin; /* Width of the scrollbar */
+    scrollbar-color: transparent transparent; /* Color of the scrollbar */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;
+}
+
+
+
+table {
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    border-collapse: collapse;
+    background-color: #fff;
+    color: #000;
+    margin: 0 auto; /* Center the table horizontally */
+}
+.table-center {
+    margin: 0 auto;
+    text-align: center; /* Center the table content */
+    width: 90%;
+     /* Adjust the width as needed */
+}
+th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #eaeaea;
+}
+
+th, td:first-child {
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #eaeaea;
+}
+
+.table-title {
+    background-color: #ddd;;
+    padding: 25px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 40px;
+    align-items: center;
+}
+/* Center the button */
+
+
+.button {
+    font-family: 'Open Sans', sans-serif;
+    display: block;
+    padding: 10px 20px;
+    background-color: #2d753f; /* Button background color */
+    color: #fff; /* Text color */
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width:auto;
+    text-align: center;
+    margin: 0 auto;
+}
+
+        
+        /* Hover effect */
+        .button:hover {
+            background-color: #0a5d04; /* Change background color on hover */
+        }
+
+
+        h2{
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            
+        }
+
+        h1{
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #5d9706;
+            color: #fff;
+            
+        }
+
+        
+.container{
+        max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
